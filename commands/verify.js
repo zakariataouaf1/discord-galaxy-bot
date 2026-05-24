@@ -126,5 +126,10 @@ module.exports = {
       .setTimestamp();
 
     await interaction.reply({ embeds: [embed], ephemeral: true });
+
+    // DM the staff member a confirmation
+    try {
+      await interaction.user.send({ embeds: [embed] });
+    } catch (_) {}
   }
 };
