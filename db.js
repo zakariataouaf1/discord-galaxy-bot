@@ -61,6 +61,18 @@ async function initDB() {
       )
     `);
 
+    // Verification tracking (prevents repeat rewards)
+    await conn.query(`
+      CREATE TABLE IF NOT EXISTS bot_verifications (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        discord_id VARCHAR(30) NOT NULL UNIQUE,
+        verified_by VARCHAR(30) NOT NULL,
+        verified_role VARCHAR(30) NOT NULL,
+        verified_gender ENUM('boy','girl') NOT NULL,
+        verified_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+
     console.log('[DB] All tables ready ✅');
   } finally {
     conn.release();
